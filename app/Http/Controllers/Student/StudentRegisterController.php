@@ -51,7 +51,7 @@ class StudentRegisterController extends Controller
         $user = Student::create([
             'name' => $request->name,
             'student_id' => $request->student_id,
-            'level' => 'Student',
+            'level' => 'Student', // ini mengarah ke database student bukan user
             'password' => Hash::make($request->password),
         ]);
 
