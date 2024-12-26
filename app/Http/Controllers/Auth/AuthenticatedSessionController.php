@@ -36,7 +36,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
+        if (!auth()->user() || auth()->user()->level !== 'Admin') {
+            Auth::logout();
+            return redirect()->back()->with('error', 'Email atau kata sandi salah');
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

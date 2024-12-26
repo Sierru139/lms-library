@@ -12,10 +12,15 @@ use Inertia\Inertia;
 
 class BookIssueController extends Controller
 {
-    public function index()
+    public function indexTeacher()
     {
         $issueBooks = BookIssueResource::collection(BookIssue::with('book','student')->paginate(5));
-        return Inertia::render('BookIssue/Index', compact('issueBooks'));        
+        return Inertia::render('BookIssue/Index', compact('issueBooks'));
+    }
+    public function indexStudent()
+    {
+        $issueBooks = BookIssueResource::collection(BookIssue::with('book','student')->paginate(5));
+        return Inertia::render('BookIssue/Index', compact('issueBooks'));
     }
 
     public function view($id)

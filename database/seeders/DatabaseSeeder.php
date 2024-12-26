@@ -8,6 +8,7 @@ use App\Models\Author;
 use App\Models\Category;
 use App\Models\LocationRack;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -31,12 +32,21 @@ class DatabaseSeeder extends Seeder
         // Author::factory(10)->create();
         // LocationRack::factory(10)->create();
 
-        Setting::factory()->create([
-            'library_name' => 'ABCD LIBRARY',
-            'library_address' => 'Dhaka, Bangladesh',
-            'library_phone' => '+8801679487265',
-            'library_email' => 'abcd@gmail.com',
-            'fines' => '50',
+        // Setting::factory()->create([
+        //     'library_name' => 'ABCD LIBRARY',
+        //     'library_address' => 'Dhaka, Bangladesh',
+        //     'library_phone' => '+8801679487265',
+        //     'library_email' => 'abcd@gmail.com',
+        //     'fines' => '50',
+        // ]);
+
+        User::insert([
+            [
+                'name' => 'Yasir',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('admin'),
+                'level' => 'Admin'
+            ]
         ]);
     }
 }

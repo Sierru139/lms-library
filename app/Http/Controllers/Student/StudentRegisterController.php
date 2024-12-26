@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
-class RegisterController extends Controller
+class StudentRegisterController extends Controller
 {
 
 
@@ -50,6 +51,7 @@ class RegisterController extends Controller
         $user = Student::create([
             'name' => $request->name,
             'student_id' => $request->student_id,
+            'level' => 'Student',
             'password' => Hash::make($request->password),
         ]);
 

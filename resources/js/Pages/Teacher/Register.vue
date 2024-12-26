@@ -7,14 +7,14 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("student.register.post"), {
+    form.post(route("teacher.register.post"), {
         onFinish: () => form.reset("password"),
     });
 };
 </script>
 
 <template>
-    <Head title="Student Register" />
+    <Head title="Teacher Register" />
     <div>
         <div
             class="flex flex-col max-w-md mx-auto my-20 px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10"

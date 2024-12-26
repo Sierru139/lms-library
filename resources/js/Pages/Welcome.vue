@@ -106,13 +106,21 @@ const submit = () => {
                 </div>
             </form>
         </div>
-        <div class="flex items-center justify-center mt-6">
+        <span class="ml-2 text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white mt-6"> Belum Punya Akun?   </span>
+        <div class="flex items-center justify-center mt-2">
             <Link
-                :href="route('register')"
+                :href="route('student.register')"
                 target="_blank"
                 class="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white"
             >
-                <span class="ml-2"> You don&#x27;t have an account? </span>
+                <span class="ml-2 underline"> Login Teacher </span>
+            </Link>
+            <Link
+                :href="route('teacher.register')"
+                target="_blank"
+                class="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white"
+            >
+                <span class="ml-2 underline"> Login Student </span>
             </Link>
         </div>
     </div>
