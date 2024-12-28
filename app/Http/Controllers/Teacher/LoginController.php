@@ -31,13 +31,13 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('student.dashboard');
+        return redirect()->route('teacher.dashboard');
     }
 
     public function destroy(Request $request)
     {
 
-        Auth::guard('student')->logout();
+        Auth::guard('teacher')->logout();
 
         $request->session()->invalidate();
 

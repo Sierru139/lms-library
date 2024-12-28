@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Student;
+namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookIssueResource;
@@ -14,14 +14,14 @@ class DashboardController extends Controller
     public function index()
     {
         $issueBooks = BookIssueResource::collection(
-            BookIssue::where('student_id',Auth::user()->id)
+            BookIssue::where('teacher_id',Auth::user()->id)
             ->where('status','pending')
             ->orWhere('status','accepted')
             ->with('book')
             ->take(5)
             ->get()
         );
-        return Inertia::render('Student/Dashboard', compact('issueBooks'));
+        return Inertia::render('Teacher/Dashboard', compact('issueBooks'));
     }
 
     public function issueBook()
@@ -31,6 +31,6 @@ class DashboardController extends Controller
             ->with('book')
             ->paginate(5)
         );
-        return Inertia::render('Student/IssueBook', compact('issueBooks'));
+        return Inertia::render('Teacher/IssueBook', compact('issueBooks'));
     }
 }

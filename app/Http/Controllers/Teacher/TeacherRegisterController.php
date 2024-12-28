@@ -51,7 +51,6 @@ class TeacherRegisterController extends Controller
         $user = Teacher::create([
             'name' => $request->name,
             'teacher_id' => $request->teacher_id,
-            'level' => 'Teacher', // ini mengarah ke database teacher bukan user
             'password' => Hash::make($request->password),
         ]);
 

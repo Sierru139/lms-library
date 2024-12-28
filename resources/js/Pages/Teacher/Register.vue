@@ -3,7 +3,7 @@ import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 const form = useForm({
     name: "",
     password: "",
-    student_id: "",
+    teacher_id: "",
 });
 
 const submit = () => {
@@ -22,7 +22,7 @@ const submit = () => {
             <div
                 class="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white"
             >
-                Create a new account
+                Buat akun sebagai guru
             </div>
             <span
                 class="justify-center text-sm text-center text-gray-500 flex-items-center dark:text-gray-400"
@@ -55,11 +55,11 @@ const submit = () => {
                         <div class="relative">
                             <input
                                 type="text"
-                                id="student_id"
-                                name="student_id"
+                                id="teacher_id"
+                                name="teacher_id"
                                 class="rounded-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                                placeholder="Student Id"
-                                v-model="form.student_id"
+                                placeholder="teacher Id"
+                                v-model="form.teacher_id"
                             />
                         </div>
                     </div>

@@ -22,7 +22,7 @@ const submit = () => {
             <div
                 class="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white"
             >
-                Create a new account
+                Buat akun sebagai murid
             </div>
             <span
                 class="justify-center text-sm text-center text-gray-500 flex-items-center dark:text-gray-400"

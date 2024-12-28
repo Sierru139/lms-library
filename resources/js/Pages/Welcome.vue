@@ -113,14 +113,14 @@ const submit = () => {
                 target="_blank"
                 class="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white"
             >
-                <span class="ml-2 underline"> Login Teacher </span>
+                <span class="ml-2 underline"> Login Student </span>
             </Link>
             <Link
                 :href="route('teacher.register')"
                 target="_blank"
                 class="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white"
             >
-                <span class="ml-2 underline"> Login Student </span>
+                <span class="ml-2 underline"> Login Teacher </span>
             </Link>
         </div>
     </div>

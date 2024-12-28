@@ -8,13 +8,15 @@ use App\Http\Controllers\DashboardController as ControllersDashboardController;
 use App\Http\Controllers\LocationRackController;
 use App\Http\Controllers\SearchBookController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\Student\DashboardController;
+use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\LoginController;
 use App\Http\Controllers\Student\ProfileController;
-use App\Http\Controllers\Student\StudentRegisterController;
-use App\Http\Controllers\Teacher\TeacherRegisterController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\Teacher\LoginController as TeacherLoginController;
+use App\Http\Controllers\Student\StudentRegisterController;
+use App\Http\Controllers\Teacher\TeacherRegisterController;
+use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,8 +47,8 @@ Route::post('/teacherRegister', [TeacherRegisterController::class, 'store'])->na
 
 // student controller
 Route::group(['prefix' => 'student', 'middleware' => ['auth:student']], function(){
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('student.dashboard');
-    Route::get('/issue/book', [DashboardController::class, 'issueBook'])->name('student.issue.book');
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::get('/issue/book', [StudentDashboardController::class, 'issueBook'])->name('student.issue.book');
     Route::post('logout', [LoginController::class, 'destroy'])->name('student.logout');
     Route::get('/search/book',[SearchBookController::class, 'index'])->name('search.book');
     Route::post('/search/book',[SearchBookController::class, 'search'])->name('search.book');
@@ -61,8 +63,8 @@ Route::group(['prefix' => 'student', 'middleware' => ['auth:student']], function
 
 // teacher controller
 Route::group(['prefix' => 'teacher', 'middleware' => ['auth:teacher']], function(){
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('teacher.dashboard');
-    Route::get('/issue/book', [DashboardController::class, 'issueBook'])->name('teacher.issue.book');
+    Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('teacher.dashboard');
+    Route::get('/issue/book', [TeacherDashboardController::class, 'issueBook'])->name('teacher.issue.book');
     Route::post('logout', [LoginController::class, 'destroy'])->name('teacher.logout');
     Route::get('/search/book',[SearchBookController::class, 'index'])->name('search.book');
     Route::post('/search/book',[SearchBookController::class, 'search'])->name('search.book');
