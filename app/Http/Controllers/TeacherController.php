@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,7 +18,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = TeacherResource::collection(Student::paginate(5));
+        $teachers = TeacherResource::collection(Teacher::paginate(5));
         return Inertia::render('TeacherBackend/Index',compact('teachers'));
     }
 

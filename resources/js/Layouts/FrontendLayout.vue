@@ -71,7 +71,7 @@ const showMenu = ref(false);
                             <p
                                 class="text-gray-800 font-sans font-bold text-xl"
                             >
-                                LMS
+                                SMKN 1 Lib
                             </p>
                         </div>
                         <div class="hidden sm:ml-6 sm:block">

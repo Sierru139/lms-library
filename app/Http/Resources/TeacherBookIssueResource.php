@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookIssueResource extends JsonResource
+class TeacherBookIssueResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,7 @@ class BookIssueResource extends JsonResource
     {
         return [
             'book' => new BookResource($this->whenLoaded('book')),
-            'student' => new StudentResource($this->whenLoaded('student')),
+            'teacher' => new StudentResource($this->whenLoaded('teacher')),
             'apply_date' => $this->apply_date,
             'issue_date' => $this->issue_date,
             'return_date' => $this->return_date,

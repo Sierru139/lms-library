@@ -16,7 +16,7 @@ import { Link } from "@inertiajs/inertia-vue3";
                                 href="javascript:void(0)"
                                 class="mx-auto inline-block max-w-[160px] text-5xl font-bold text-gray-800 font-serif"
                             >
-                                LMS
+                                SMKN 1 Lib
                             </a>
                         </div>
                         <slot />

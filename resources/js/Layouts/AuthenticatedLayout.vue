@@ -57,7 +57,7 @@ const showingNavigationDropdown = ref(false);
                         >
                             <span
                                 class="self-center whitespace-nowrap text-3xl font-bold font-serif text-gray-800"
-                                >LMS</span
+                                >SMKN 1 Lib</span
                             >
                         </Link>
                         <form
@@ -367,7 +367,7 @@ const showingNavigationDropdown = ref(false);
                                         class="text-base font-normal rounded-lg flex items-center p-2 group"
                                         :class="{
                                             active: $page.url.startsWith(
-                                                '/admin/issue/book'
+                                                '/admin/issue/book/teacher'
                                             ),
                                         }"
                                     >

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookIssueController;
@@ -33,8 +34,12 @@ use Inertia\Inertia;
 */
 
 
-Route::get('/', [LoginController::class, 'loginForm']);
-Route::post('/',[LoginController::class, 'store'])->name('student.login');
+// Route::get('/', [LoginController::class, 'loginForm']);
+// Route::post('/',[LoginController::class, 'store'])->name('student.login');
+
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+                ->name('login');
+    Route::post('/', [AuthenticatedSessionController::class, 'store']);
 
 // Student
 Route::get('/studentRegister', [StudentRegisterController::class, 'create'])->name('student.register');
@@ -85,12 +90,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','verified']], functio
     Route::resource('book', BookController::class);
     Route::resource('teacher', TeacherController::class);
     Route::resource('student', StudentController::class);
-    Route::get('/issue/book/',[BookIssueController::class, 'indexTeacher'])->name('book.issueTeacher');
+
+    Route::get('/issue/book/teacher',[BookIssueController::class, 'indexTeacher'])->name('book.issueTeacher');
     Route::get('/issue/book/student',[BookIssueController::class, 'indexStudent'])->name('book.issueStudent');
-    Route::get('/issue/book/{id}',[BookIssueController::class, 'view'])->name('book.issue.view');
-    Route::post('/issue/book/status/{id}',[BookIssueController::class, 'statusUpdate'])->name('book.issue.status');
+
+    Route::get('/issue/book/teacher/{id}',[BookIssueController::class, 'teacherView'])->name('book.issueTeacher.view');
+    Route::get('/issue/book/student/{id}',[BookIssueController::class, 'studentView'])->name('book.issueStudent.view');
+
+    Route::post('/issue/book/status/teacher/{id}',[BookIssueController::class, 'TeacherStatusUpdate'])->name('book.issue.status');
+    Route::post('/issue/book/status/student/{id}',[BookIssueController::class, 'StudentStatusUpdate'])->name('book.issue.status');
+
     Route::post('/issue/book/returned/{id}',[BookIssueController::class, 'returnUpdate'])->name('book.issue.return');
-    Route::post('/issue/book',[BookIssueController::class, 'search']);
+    Route::post('/issue/book/teacher',[BookIssueController::class, 'teacherSearch']);
+    Route::post('/issue/book/student',[BookIssueController::class, 'studentSearch']);
     Route::get('/setting',[SettingController::class,'index'])->name('settings');
     Route::post('/setting',[SettingController::class,'store'])->name('settings');
 });

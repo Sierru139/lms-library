@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\BookIssue;
+use App\Models\StudentBookIssue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class SearchBookController extends Controller
     public function index()
     {
         $books = BookResource::collection(Book::where('status',1)->orderBy('id','desc')->with('category','author','location')->paginate(6));
-        $issueBooks = BookIssue::where('student_id',Auth::user()->id)->where('status','!=','cancel')->get();
+        $issueBooks = StudentBookIssue::where('student_id',Auth::user()->id)->where('status','!=','cancel')->get();
         return Inertia::render('Student/SearchBook',compact('books','issueBooks'));
     }
 
@@ -33,7 +34,7 @@ class SearchBookController extends Controller
 
     public function issueBook(Request $request){
         $unique_id = mt_rand(100000,999999);
-        BookIssue::create([
+        StudentBookIssue::create([
             'student_id' => Auth::user()->id,
             'book_id' => $request->bookId,
             'apply_date' => Carbon::now(),
