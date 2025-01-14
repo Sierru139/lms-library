@@ -15,16 +15,20 @@ return new class extends Migration
     {
         Schema::create('student_book_issues', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
-            $table->date('apply_date')->nullable();
-            $table->date('issue_date')->nullable();
-            $table->date('return_date')->nullable();
-            $table->string('late_return_fine')->nullable();
+            $table->string('student_name');
+            $table->date('apply_date')->nullable(); // tamggal mulai
+            $table->date('issue_date')->nullable(); // tanggal berakhir
+            $table->date('returned_date')->nullable();
+            $table->date('no_kartu_perp')->nullable();
+            $table->date('kelas')->nullable();
+            $table->date('jurusan')->nullable();
+            // $table->date('return_date')->nullable(); // tanggal kembali
+            // $table->string('late_return_fine')->nullable();
             $table->string('unique_id')->unique();
             $table->enum('status',['pending','accepted','cancel', 'returned'])->default('pending');
-            $table->date('returned_date')->nullable();
-            $table->string('fine_received')->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

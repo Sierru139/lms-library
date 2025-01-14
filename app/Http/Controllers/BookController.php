@@ -46,7 +46,7 @@ class BookController extends Controller
     {
         $request->validate([
             'name' => 'required | min:3',
-            'isbn_no' => 'required',
+            'no_induk' => 'required',
             'no_of_copy' => 'required | numeric',
             'status' => 'required',
             'category' => 'required',
@@ -56,7 +56,7 @@ class BookController extends Controller
 
         Book::create([
             'name' => $request->name,
-            'isbn_no' => $request->isbn_no,
+            'no_induk' => $request->no_induk,
             'no_of_copy' => $request->no_of_copy,
             'status' => $request->status,
             'category_id' => $request->category,
@@ -103,7 +103,7 @@ class BookController extends Controller
     {
         $request->validate([
             'name' => 'required | min:3',
-            'isbn_no' => 'required',
+            'no_induk' => 'required',
             'no_of_copy' => 'required | numeric',
             'status' => 'required',
             'category' => 'required',
@@ -113,7 +113,7 @@ class BookController extends Controller
 
         $book->update([
             'name' => $request->name,
-            'isbn_no' => $request->isbn_no,
+            'no_induk' => $request->no_induk,
             'no_of_copy' => $request->no_of_copy,
             'status' => $request->status,
             'category_id' => $request->category,

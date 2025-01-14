@@ -163,7 +163,7 @@ watch(search, (value) => {
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
                                         {{ index + 1}}
-                                            <!-- {{ book.book.isbn_no }} -->
+                                            <!-- {{ book.book.no_induk }} -->
                                         </p>
                                     </td>
                                     <td
@@ -181,7 +181,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.book.isbn_no }}
+                                            {{ book.book.no_induk }}
                                         </p>
                                     </td>
                                     <td
@@ -262,7 +262,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.book.isbn_no }}
+                                            {{ book.book.no_induk }}
                                         </p>
                                     </td>
                                     <td

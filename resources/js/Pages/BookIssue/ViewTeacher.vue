@@ -77,7 +77,7 @@ const returnUpdate = () => {
                                             ISBN Number
                                         </th>
                                         <td class="py-2 text-lg px-6">
-                                            {{ book.data.isbn_no }}
+                                            {{ book.data.no_induk }}
                                         </td>
                                     </tr>
                                     <tr

@@ -16,7 +16,7 @@ class BookResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'isbn_no' => $this->isbn_no,
+            'no_induk' => $this->no_induk,
             'category' => new CategoryResource($this->whenLoaded('category')),
             'author' => new AuthorResource($this->whenLoaded('author')),
             'location' => new LocationRackResource($this->whenLoaded('location')),

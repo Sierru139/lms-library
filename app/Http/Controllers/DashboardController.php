@@ -23,7 +23,7 @@ class DashboardController extends Controller
             'issue_book' => StudentBookIssue::count(),
             'return' => StudentBookIssue::where('status','returned')->count(),
             'not_return' => StudentBookIssue::where('status', '!=', 'returned')->count(),
-            'fines' => StudentBookIssue::sum('fine_received'),
+            // 'fines' => StudentBookIssue::sum('fine_received'),
         ];
         return Inertia::render('Dashboard', compact('total'));
     }

@@ -10,7 +10,7 @@ defineProps({
 
 const form = useForm({
     name: "",
-    isbn_no: "",
+    no_induk: "",
     category: "",
     author: "",
     location: "",
@@ -53,18 +53,18 @@ const submit = () => {
                         </div>
                         <div>
                             <label
-                                for="isbn_no"
+                                for="no_induk"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                 >ISBN No</label
                             >
                             <input
                                 type="text"
-                                name="isbn_no"
-                                id="isbn_no"
+                                name="no_induk"
+                                id="no_induk"
                                 class="bg-gray-50 border mb-6 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 placeholder="283695645869"
                                 required=""
-                                v-model="form.isbn_no"
+                                v-model="form.no_induk"
                             />
                         </div>
                         <div class="flex flex-row gap-4">
@@ -145,7 +145,7 @@ const submit = () => {
                                 </option>
                             </select>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label
                                 for="location"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
@@ -165,7 +165,7 @@ const submit = () => {
                                     {{ location.name }}
                                 </option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
