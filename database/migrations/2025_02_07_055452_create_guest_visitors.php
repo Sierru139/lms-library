@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_visitors', function (Blueprint $table) {
+        Schema::create('guest_visitors', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_kunjungan')->nullable();
-            $table->string('student_name')->nullable();
-            $table->enum('kelas',['X','XI','XII']);
-            // $table->string('kelas')->nullable();
-            $table->string('jurusan')->nullable();
-            $table->string('tujuan')->nullable();
+            $table->string("nama");
+            $table->string("tanggal");
+            $table->string("alamat");
+            $table->string("pekerjaan");
+            $table->text("maksud_kunjungan");
+            $table->text("kesan");
+            $table->text("pesan");
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_visitors');
+        Schema::dropIfExists('guest_visitors');
     }
 };
