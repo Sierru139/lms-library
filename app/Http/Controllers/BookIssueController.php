@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BookIssueResource;
-use App\Http\Resources\BookResource;
-use App\Http\Resources\StudentBookIssueResource;
-use App\Http\Resources\TeacherBookIssueResource;
-use App\Models\Book;
-use App\Models\BookIssue;
-use App\Models\StudentBookIssue;
-use App\Models\TeacherBookIssue;
+use App\Http\Resources\{BookIssueResource, BookResource, StudentBookIssueResource, TeacherBookIssueResource};
+use App\Models\{Book, BookIssue, StudentBookIssue, TeacherBookIssue};
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,81 +12,89 @@ class BookIssueController extends Controller
 {
     public function indexTeacher()
     {
-        $issueBooks = TeacherBookIssueResource::collection(TeacherBookIssue::with('book','teacher')->paginate(5));
+        $issueBooks = TeacherBookIssueResource::collection(TeacherBookIssue::with('book', 'teacher')->paginate(5));
         return Inertia::render('BookIssue/IndexTeacher', compact('issueBooks'));
     }
+
     public function indexStudent()
     {
-        $issueBooks = StudentBookIssueResource::collection(StudentBookIssue::with('book','student')->paginate(5));
+        $issueBooks = StudentBookIssueResource::collection(StudentBookIssue::with('book', 'student')->paginate(5));
         return Inertia::render('BookIssue/IndexStudent', compact('issueBooks'));
     }
 
     public function teacherView($id)
     {
-        $bookIssue = TeacherBookIssue::with('teacher')->find($id);
+        $bookIssue = TeacherBookIssue::with('teacher')->findOrFail($id);
         $issue = new TeacherBookIssueResource($bookIssue);
-        $book = new BookResource(Book::where('id',$bookIssue->book_id)->with('category','author','location')->first());
-        return Inertia::render('BookIssue/ViewTeacher', compact('issue','book'));
+        $book = new BookResource(Book::with('category', 'author', 'location')->findOrFail($bookIssue->book_id));
+        return Inertia::render('BookIssue/ViewTeacher', compact('issue', 'book'));
     }
+
     public function studentView($id)
     {
-        $bookIssue = StudentBookIssue::with('student')->find($id);
+        $bookIssue = StudentBookIssue::with('student')->findOrFail($id);
         $issue = new StudentBookIssueResource($bookIssue);
-        $book = new BookResource(Book::where('id',$bookIssue->book_id)->with('category','author','location')->first());
-        return Inertia::render('BookIssue/ViewStudent', compact('issue','book'));
+        $book = new BookResource(Book::with('category', 'author', 'location')->findOrFail($bookIssue->book_id));
+        return Inertia::render('BookIssue/ViewStudent', compact('issue', 'book'));
     }
 
     public function teacherStatusUpdate(Request $request, $id)
     {
-        $issue = TeacherBookIssue::find($id);
-        $issue->issue_date = Carbon::now();
-        $issue->return_date = $request->return_date;
-        $issue->status = $request->status;
-        $issue->save();
+        $issue = TeacherBookIssue::findOrFail($id);
+        $issue->update([
+            'issue_date' => Carbon::now(),
+            'return_date' => $request->return_date,
+            'status' => $request->status,
+        ]);
 
-        return redirect()->route('book.issue')->with('message','Status Updated Successfully!!');
+        return redirect()->route('book.issueTeacher')->with('message', 'Status Updated Successfully!');
     }
+
     public function studentStatusUpdate(Request $request, $id)
     {
-        $issue = StudentBookIssue::find($id);
-        $issue->issue_date = Carbon::now();
-        $issue->return_date = $request->return_date;
-        $issue->status = $request->status;
-        $issue->save();
+        $issue = StudentBookIssue::findOrFail($id);
+        $issue->update([
+            'issue_date' => Carbon::now(),
+            'return_date' => $request->return_date,
+            'status' => $request->status,
+        ]);
 
-        return redirect()->route('book.issue')->with('message','Status Updated Successfully!!');
+        return redirect()->route('book.issueStudent')->with('message', 'Status Updated Successfully!');
     }
 
-    public function teacherSeturnUpdate(Request $request, $id)
+    public function teacherReturnUpdate(Request $request, $id)
     {
-        $issue = TeacherBookIssue::find($id);
-        $issue->returned_date = $request->returned_date;
-        $issue->fine_received = $request->fine_received;
-        $issue->status = "returned";
-        $issue->save();
+        $issue = TeacherBookIssue::findOrFail($id);
+        $issue->update([
+            'returned_date' => $request->returned_date,
+            'fine_received' => $request->fine_received,
+            'status' => 'returned',
+        ]);
 
-        return redirect()->route('book.issue')->with('message','Book Returned Successfully!!');
+        return redirect()->route('book.issueTeacher')->with('message', 'Book Returned Successfully!');
     }
 
-    public function studentSeturnUpdate(Request $request, $id)
+    public function studentReturnUpdate(Request $request, $id)
     {
-        $issue = StudentBookIssue::find($id);
-        $issue->returned_date = $request->returned_date;
-        $issue->fine_received = $request->fine_received;
-        $issue->status = "returned";
-        $issue->save();
+        $issue = StudentBookIssue::findOrFail($id);
+        $issue->update([
+            'returned_date' => $request->returned_date,
+            'fine_received' => $request->fine_received,
+            'status' => 'returned',
+        ]);
 
-        return redirect()->route('book.issue')->with('message','Book Returned Successfully!!');
+        return redirect()->route('book.issueStudent')->with('message', 'Book Returned Successfully!');
     }
 
     public function teacherSearch(Request $request)
     {
         $books = TeacherBookIssueResource::collection(
-            TeacherBookIssue::where('unique_id','like','%'.$request->search.'%')
-            ->orWhere('teacher_id','like','%'.$request->search.'%')
-            ->orderBy('id','desc')
-            ->with('book','teacher')
-            ->paginate(5)
+            TeacherBookIssue::where('unique_id', 'like', "%{$request->search}%")
+                ->orWhere('teacher_id', 'like', "%{$request->search}%")
+                ->orWhere('teacher_name', 'like', "%{$request->search}%")
+                ->orderByDesc('id')
+                ->with('book')
+                ->paginate(5)
         );
         return Inertia::render('BookIssue/IndexTeacher', compact('books'));
     }
@@ -100,13 +102,62 @@ class BookIssueController extends Controller
     public function studentSearch(Request $request)
     {
         $books = StudentBookIssueResource::collection(
-            StudentBookIssue::where('unique_id','like','%'.$request->search.'%')
-            ->orWhere('student_id','like','%'.$request->search.'%')
-            ->orderBy('id','desc')
-            ->with('book','student')
-            ->paginate(5)
+            StudentBookIssue::where('unique_id', 'like', "%{$request->search}%")
+                ->orWhere('student_id', 'like', "%{$request->search}%")
+                ->orderByDesc('id')
+                ->with('book', 'student')
+                ->paginate(5)
         );
         return Inertia::render('BookIssue/IndexStudent', compact('books'));
     }
 
+    public function teacherCreate()
+    {
+        $bookIssue = new TeacherBookIssue();
+        $issue = new TeacherBookIssueResource($bookIssue);
+        return Inertia::render('BookIssue/Teacher/Create', compact('issue'));
+    }
+
+    public function teacherStore(Request $request)
+    {
+        $request->validate([
+            'teacher_name' => 'required',
+            'apply_date' => 'required',
+            'book_id' => 'required',
+        ]);
+
+        TeacherBookIssue::create([
+            'teacher_name' => $request->teacher_name,
+            'apply_date' => $request->apply_date,
+            'book_id' => $request->book_id,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('book.issueTeacher')->with('success', 'Success, you have added data');
+    }
+
+    public function studentCreate()
+    {
+        return Inertia::render('BookIssue/Student/Create', [
+            'book' => Book::all(),
+        ]);
+    }
+
+    public function studentStore(Request $request)
+    {
+        $request->validate([
+            'student_name' => 'required',
+            'apply_date' => 'required',
+            'book_id' => 'required',
+        ]);
+
+        StudentBookIssue::create([
+            'student_name' => $request->student_name,
+            'apply_date' => $request->apply_date,
+            'book_id' => $request->book_id,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('book.issueStudent')->with('success', 'Success, you have added data');
+    }
 }

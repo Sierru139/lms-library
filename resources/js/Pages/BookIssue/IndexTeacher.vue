@@ -61,6 +61,14 @@ watch(search, (value) => {
                             v-model="search"
                         />
                     </div>
+                    <div class="lg:ml-40 ml-10 space-x-8">
+                        <Link
+                            :href="route('book.issueTeacher.create')"
+                            class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                        >
+                            Create
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div class="flex items-center justify-center">

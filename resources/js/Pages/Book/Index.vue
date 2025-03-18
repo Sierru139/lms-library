@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Books" />
+    <Head ptitle="Books" />
     <authenticated-layout>
         <div class="bg-white p-8 rounded-md w-full">
             <div class="flex items-center justify-between pb-6">
@@ -57,128 +57,57 @@ defineProps({
             </div>
             <div>
                 <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                    <div
-                        class="inline-block min-w-full shadow rounded-lg overflow-hidden"
-                    >
+                    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        ISBN NO
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Name
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Category
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Author
-                                    </th>
-                                    <!-- <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Location
-                                    </th> -->
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        No of Copy
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        status
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Action
-                                    </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> No. ISBN </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Nama </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Kategori </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Pengarang </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Jumlah </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Status </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Action </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="book in books.data" :key="book.id">
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">
                                             {{ book.no_induk }}
                                         </p>
                                     </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">
                                             {{ book.name }}
                                         </p>
                                     </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">
                                             {{ book.category.name }}
                                         </p>
                                     </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">
                                             {{ book.author.name }}
                                         </p>
                                     </td>
-                                    <!-- <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            {{ book.location.name }}
-                                        </p>
-                                    </td> -->
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">
                                             {{ book.no_of_copy }}
                                         </p>
                                     </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <span
-                                            class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded dark:bg-indigo-200 dark:text-indigo-900"
-                                            >{{
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <span class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded dark:bg-indigo-200 dark:text-indigo-900">
+                                            {{
                                                 book.status == 1
                                                     ? "Enable"
                                                     : "Disable"
                                             }}</span
                                         >
                                     </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">
                                             <Link
                                                 :href="
                                                     route('book.edit', book.id)
