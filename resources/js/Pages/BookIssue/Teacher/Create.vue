@@ -1,9 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from "@inertiajs/inertia-vue3";
 import { reactive, ref, createApp } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill'
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 // const app = createApp()
 // app.component('QuillEditor', QuillEditor)
@@ -51,8 +50,7 @@ input:disabled {
 
 <template>
     <Head title="Project - Create" />
-    <AuthenticatedLayout>
-
+    <authenticated-layout>
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200 shadow sm:rounded-lg">
@@ -60,7 +58,7 @@ input:disabled {
                     <h3 class="text-3xl mb-3"><b>Add Team</b></h3>
                         <form @submit.prevent="submit" enctype="multipart/form-data" class="mt-2 p-4">
                         <input type="hidden" name="_token" :value="csrfToken">
-                        <div class="mb-6 sm:grid grid-cols-6 gap-3 border-b-2 pb-4 items-center justify-center">
+                        <div class="mb-6 sm:grid grid-cols-6 gap-3 items-center justify-center">
                             <div class="mb-4 col-span-3">
                                 <label for="teacher_name">Nama Guru *</label>
                                 <input class="w-full border-0 rounded-md ring-gray-300"
@@ -71,7 +69,7 @@ input:disabled {
                                 <span class="text-red-500 text-xs">{{ form.errors.teacher_name }}</span>
                             </div>
                         </div>
-                        <div class="mb-6 sm:grid grid-cols-6 gap-3 border-b-2 pb-4 items-center justify-center">
+                        <div class="mb-6 sm:grid grid-cols-6 gap-3 items-center justify-center">
                             <div class="mb-4 col-span-3">
                                 <label for="apply_date">Tanggal Pinjam *</label>
                                 <input class="w-full border-0 rounded-md ring-gray-300"
@@ -95,8 +93,7 @@ input:disabled {
                                 </div>
                             </div>
 
-
-                        <Link href="/team" class="text-blue-500 hover:text-blue-700">Back</Link>
+                        <br>
                         <button type="submit" class="py-1 px-3 bg-gray-300 hover:bg-gray-400 duration-100 rounded">Save</button>
                     </form>
 
@@ -104,5 +101,5 @@ input:disabled {
             </div>
         </div>
     </div>
-    </AuthenticatedLayout>
+    </authenticated-layout>
 </template>

@@ -23,7 +23,6 @@ return new class extends Migration
             // $table->date('return_date')->nullable();
             // $table->string('late_return_fine')->nullable();
             $table->date('returned_date')->nullable();
-            $table->string('unique_id')->unique();
             $table->enum('status',['pending','accepted','cancel', 'returned'])->default('pending');
             // $table->string('fine_received')->nullable();
             $table->timestamps();

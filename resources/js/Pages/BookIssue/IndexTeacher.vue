@@ -126,8 +126,8 @@ watch(search, (value) => {
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="(book,index) in issueBooks.data"
-                                    :key="book.id"
+                                    v-for="(issue,index) in issueBooks.data"
+                                    :key="issue.id"
                                 >
                                     <td
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
@@ -144,7 +144,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.teacher.name }}
+                                            {{ issue.name }}
                                         </p>
                                     </td>
                                     <td
@@ -153,7 +153,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.unique_id }}
+                                            {{ issue.id }}
                                         </p>
                                     </td>
                                     <td
@@ -162,7 +162,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.issue_date }}
+                                            {{ issue.issue_date }}
                                         </p>
                                     </td>
                                     <td
@@ -171,7 +171,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.book.name }}
+                                            {{ issue.book.name }}
                                         </p>
                                     </td>
                                     <td
@@ -180,7 +180,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.return_date }}
+                                            {{ issue.return_date }}
                                         </p>
                                     </td>
                                     <td
@@ -188,7 +188,7 @@ watch(search, (value) => {
                                     >
                                         <span
                                             class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded dark:bg-indigo-200 dark:text-indigo-900"
-                                            >{{ book.status }}</span
+                                            >{{ issue.status }}</span
                                         >
                                     </td>
                                     <td
@@ -201,7 +201,7 @@ watch(search, (value) => {
                                                 :href="
                                                     route(
                                                         'book.issueTeacher.view',
-                                                        book.id
+                                                        issue.id
                                                     )
                                                 "
                                                 type="button"

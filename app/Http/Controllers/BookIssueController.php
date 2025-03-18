@@ -113,9 +113,7 @@ class BookIssueController extends Controller
 
     public function teacherCreate()
     {
-        $bookIssue = new TeacherBookIssue();
-        $issue = new TeacherBookIssueResource($bookIssue);
-        return Inertia::render('BookIssue/Teacher/Create', compact('issue'));
+        return Inertia::render('BookIssue/Teacher/Create', ['book' => Book::all()]);
     }
 
     public function teacherStore(Request $request)
