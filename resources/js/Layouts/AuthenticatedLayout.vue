@@ -237,7 +237,7 @@ const showingNavigationDropdown = ref(false);
                                                 d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"
                                             ></path>
                                         </svg>
-                                        <span class="ml-3">Kategori</span>
+                                        <span class="ml-3">Kategori Buku</span>
                                     </Link>
                                 </li>
                                 <li>
@@ -260,7 +260,7 @@ const showingNavigationDropdown = ref(false);
                                                 d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
                                             ></path>
                                         </svg>
-                                        <span class="ml-3">Pengarang</span>
+                                        <span class="ml-3">Pengarang Buku</span>
                                     </Link>
                                 </li>
                                 <li>
@@ -285,7 +285,7 @@ const showingNavigationDropdown = ref(false);
                                                 clip-rule="evenodd"
                                             ></path>
                                         </svg>
-                                        <span class="ml-3">Lokasi Buku</span>
+                                        <span class="ml-3">Lokasi Rak</span>
                                     </Link>
                                 </li>
                                 <li>
