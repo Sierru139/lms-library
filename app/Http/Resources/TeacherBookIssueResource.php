@@ -17,6 +17,7 @@ class TeacherBookIssueResource extends JsonResource
         return [
             'book' => new BookResource($this->whenLoaded('book')),
             'teacher' => new StudentResource($this->whenLoaded('teacher')),
+            'teacher_name' => $this->teacher_name,
             'apply_date' => $this->apply_date,
             'issue_date' => $this->issue_date,
             'return_date' => $this->return_date,

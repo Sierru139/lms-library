@@ -12,13 +12,13 @@ class BookIssueController extends Controller
 {
     public function indexTeacher()
     {
-        $issueBooks = TeacherBookIssueResource::collection(TeacherBookIssue::with('book', 'teacher')->paginate(5));
+        $issueBooks = TeacherBookIssueResource::collection(TeacherBookIssue::with('book')->paginate(5));
         return Inertia::render('BookIssue/IndexTeacher', compact('issueBooks'));
     }
 
     public function indexStudent()
     {
-        $issueBooks = StudentBookIssueResource::collection(StudentBookIssue::with('book', 'student')->paginate(5));
+        $issueBooks = StudentBookIssueResource::collection(StudentBookIssue::with('book')->paginate(5));
         return Inertia::render('BookIssue/IndexStudent', compact('issueBooks'));
     }
 
@@ -132,6 +132,40 @@ class BookIssueController extends Controller
         ]);
 
         return redirect()->route('book.issueTeacher')->with('success', 'Success, you have added data');
+    }
+
+    public function teacherEdit(string $id)
+    {
+        $issueBook = TeacherBookIssue::with('book')->find($id);
+        return Inertia::render( 'BookIssue/Teacher/Edit', [
+            'issueBook' => $issueBook,
+            'books' => Book::all(),
+        ]);
+    }
+
+    public function teacherUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'teacher_name' => 'required',
+            'apply_date' => 'required',
+            'book_id' => 'required',
+        ]);
+
+        $issue = TeacherBookIssue::find($id);
+
+        if (!$issue) {
+            return redirect()->route('book.issueTeacher')->with('error', 'Data not found');
+        }
+
+        $issue->update([
+            'teacher_name' => $request->teacher_name,
+            'apply_date' => $request->apply_date,
+            'returned_date' => $request->returned_date,
+            'book_id' => $request->book_id,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('book.issueTeacher')->with('success', 'Success, you have updated data');
     }
 
     public function studentCreate()

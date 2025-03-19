@@ -102,6 +102,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','verified']], functio
         Route::get('/book/teacher-add',[BookIssueController::class, 'teacherCreate'])->name('book.issueTeacher.create');
         Route::post('/book/teacher/create',[BookIssueController::class, 'teacherStore'])->name('book.issueTeacher.store');
 
+        Route::get('/book/teacher-edit/{id}',[BookIssueController::class, 'teacherEdit'])->name('book.issueTeacher.edit');
+        Route::post('/book/teacher/edit/{id}',[BookIssueController::class, 'teacherUpdate'])->name('book.issueTeacher.update');
+
         Route::get('/book/student/create',[BookIssueController::class, 'studentCreate'])->name('book.issueStudent.create');
         Route::post('/book/student/create',[BookIssueController::class, 'studentStore'])->name('book.issueStudent.store');
 

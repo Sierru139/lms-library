@@ -144,7 +144,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ issue.name }}
+                                            {{ issue.teacher_name }}
                                         </p>
                                     </td>
                                     <td
@@ -162,7 +162,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ issue.issue_date }}
+                                            {{ issue.apply_date }}
                                         </p>
                                     </td>
                                     <td
@@ -178,34 +178,50 @@ watch(search, (value) => {
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                     >
                                         <p
+                                            v-if="issue.returned_date"
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ issue.return_date }}
+                                            {{ issue.returned_date }}
+                                        </p>
+                                        <p
+                                            v-else
+                                            class="text-gray-900 whitespace-no-wrap"
+                                        >
+                                            Belum dikembalikan
                                         </p>
                                     </td>
                                     <td
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                     >
                                         <span
-                                            class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded dark:bg-indigo-200 dark:text-indigo-900"
-                                            >{{ issue.status }}</span
-                                        >
+                                        v-if="issue.status == 'pending'"
+                                            class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded">
+                                                Sedang Dipinjam - Belum Disetujui
+                                        </span>
+                                        <span
+                                        v-if="issue.status == 'accepted'"
+                                            class="bg-sky-100 text-sky-800 text-sm font-medium mr-2 px-5 py-1 rounded">
+                                                Sedang Dipinjam - Telah Setujui
+                                        </span>
+                                        <span
+                                        v-if="issue.status == 'returned'"
+                                            class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-5 py-1 rounded">
+                                                Telah Dikembalikan
+                                        </span>
+                                        <span
+                                        v-if="issue.status == 'cancel'"
+                                            class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-5 py-1 rounded">
+                                                Dibatalkan
+                                        </span>
                                     </td>
                                     <td
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                     >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
+                                        <p class="text-gray-900 whitespace-no-wrap">
                                             <Link
-                                                :href="
-                                                    route(
-                                                        'book.issueTeacher.view',
-                                                        issue.id
-                                                    )
-                                                "
+                                                :href="route('book.issueTeacher.edit', issue.id)"
                                                 type="button"
-                                                class="bg-teal-600 hover:bg-teal-800 px-1 py-1 mx-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                                                class="bg-indigo-600 hover:bg-indigo-800 px-1 py-1 rounded-md text-white font-semibold tracking-wide cursor-pointer"
                                             >
                                                 <svg
                                                     class="w-6 h-6"
@@ -214,11 +230,11 @@ watch(search, (value) => {
                                                     xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                     <path
-                                                        d="M10 12a2 2 0 100-4 2 2 0 000 4z"
+                                                        d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
                                                     ></path>
                                                     <path
                                                         fill-rule="evenodd"
-                                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                                        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
                                                         clip-rule="evenodd"
                                                     ></path>
                                                 </svg>

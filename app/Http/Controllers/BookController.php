@@ -51,7 +51,7 @@ class BookController extends Controller
             'status' => 'required',
             'category' => 'required',
             'author' => 'required',
-            'location' => 'required',
+            // 'location' => 'required',
         ]);
 
         Book::create([
@@ -61,7 +61,7 @@ class BookController extends Controller
             'status' => $request->status,
             'category_id' => $request->category,
             'author_id' => $request->author,
-            'location_rack_id' => $request->location,
+            // 'location_rack_id' => $request->location,
         ]);
 
         return redirect()->route('book.index')->with('message','Book Created Successfully!');
