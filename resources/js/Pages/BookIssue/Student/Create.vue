@@ -1,105 +1,140 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import { reactive, ref, createApp } from 'vue';
-import { QuillEditor } from '@vueup/vue-quill'
-
-// const app = createApp()
-// app.component('QuillEditor', QuillEditor)
+import { Head, Link } from '@inertiajs/vue3';
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-const form = useForm({
-    teacher_name: '',
-    apply_date: '',
-    book_id: '',
-});
-
-const submit = () => {
-    form.post(route('book.issueTeacher.store'), {
-        onError: (errors) => {
-            console.error(errors);
-        }
-    });
-}
-
 </script>
-
-<style>
-input:disabled:hover,
-input:disabled:active,
-input:disabled:focus,
-textarea:disabled:hover,
-textarea:disabled:active,
-textarea:disabled:focus,
-textarea:disabled,
-input:disabled {
-  background-color: rgb(245, 245, 245);
-  border: 1px solid rgba(128, 128, 128, 0.3);
-  cursor: not-allowed;
-}
- input[type="number"]::-webkit-outer-spin-button,
- input[type="number"]::-webkit-inner-spin-button {
-	 -webkit-appearance: none;
-	 margin: 0;
- }
-
- .ql-editor {
-    background-color: white;
- }
-</style>
 
 <template>
     <Head title="Project - Create" />
+    <AuthenticatedLayout>
+        <div class="py-12">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200 shadow sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        <h3 class="text-3xl mb-3"><b>Add Team</b></h3>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200 shadow sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-3xl mb-3"><b>Add Team</b></h3>
-                        <form @submit.prevent="submit" enctype="multipart/form-data" class="mt-2 p-4">
-                        <input type="hidden" name="_token" :value="csrfToken">
-                        <div class="mb-6 sm:grid grid-cols-6 gap-3 border-b-2 pb-4 items-center justify-center">
-                            <div class="mb-4 col-span-3">
-                                <label for="teacher_name">Nama Guru *</label>
-                                <input class="w-full border-0 rounded-md ring-gray-300"
-                                        v-model="form.teacher_name"
-                                        name="teacher_name" id="teacher_name"
-                                        type="text"
-                                        placeholder="Name...">
-                                <span class="text-red-500 text-xs">{{ form.errors.teacher_name }}</span>
-                            </div>
+                        <!-- Flash Message -->
+                        <div v-if="$page.props.flash.message" class="mb-4 text-green-600">
+                            {{ $page.props.flash.message }}
                         </div>
-                        <div class="mb-6 sm:grid grid-cols-6 gap-3 border-b-2 pb-4 items-center justify-center">
-                            <div class="mb-4 col-span-3">
-                                <label for="apply_date">Tanggal Pinjam *</label>
-                                <input class="w-full border-0 rounded-md ring-gray-300"
-                                        v-model="form.apply_date"
-                                        name="apply_date" id="apply_date"
-                                        type="date">
-                                <span class="text-red-500 text-xs">{{ form.errors.apply_date }}</span>
-                            </div>
+                        <div v-if="$page.props.flash.error" class="mb-4 text-red-600">
+                            {{ $page.props.flash.error }}
                         </div>
-                        <div class="col-span-2">
-                                <label for="project_number">Project Number*</label>
-                                <div class="">
-                                    <div class="relative rounded-md flex items-center">
-                                        <select name="book_id"
-                                                id="book_id"
-                                                v-model="form.book_id"
-                                                class="min-w-[100px] border-0 ring-gray-300">
-                                            <option v-for="(item, index) in $page.props.book" :key="index" :value="item.id">{{ item.name }}</option>
-                                        </select>
+
+                        <!-- Form -->
+                        <form method="POST" :action="route('book.issueStudent.store')">
+                            <input type="hidden" name="_token" :value="csrfToken" />
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                                <div>
+                                    <label for="student_name">Nama Siswa *</label>
+                                    <input type="text" name="student_name" id="student_name" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.student_name" />
+                                    <div v-if="$page.props.errors?.student_name" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.student_name }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="no_kartu_perp">No. Kartu Perpustakaan</label>
+                                    <input type="text" name="no_kartu_perp" id="no_kartu_perp" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.no_kartu_perp" />
+                                    <div v-if="$page.props.errors?.no_kartu_perp" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.no_kartu_perp }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="kelas">Kelas</label>
+                                    <input type="text" name="kelas" id="kelas" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.kelas" />
+                                    <div v-if="$page.props.errors?.kelas" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.kelas }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="jurusan">Jurusan</label>
+                                    <input type="text" name="jurusan" id="jurusan" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.jurusan" />
+                                    <div v-if="$page.props.errors?.jurusan" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.jurusan }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="apply_date">Tanggal Pinjam *</label>
+                                    <input type="date" name="apply_date" id="apply_date" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.apply_date" />
+                                    <div v-if="$page.props.errors?.apply_date" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.apply_date }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="issue_date">Tanggal Terbit</label>
+                                    <input type="date" name="issue_date" id="issue_date" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.issue_date" />
+                                    <div v-if="$page.props.errors?.issue_date" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.issue_date }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="returned_date">Tanggal Kembali</label>
+                                    <input type="date" name="returned_date" id="returned_date" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.returned_date" />
+                                    <div v-if="$page.props.errors?.returned_date" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.returned_date }}
+                                    </div>
+                                </div>
+
+                                <!-- <div>
+                                    <label for="id_pinjaman">ID Pinjaman</label>
+                                    <input type="text" name="id_pinjaman" id="id_pinjaman" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2" :value="$page.props.old?.id_pinjaman" />
+                                    <div v-if="$page.props.errors?.id_pinjaman" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.id_pinjaman }}
+                                    </div>
+                                </div> -->
+
+                                <div>
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2">
+                                        <option value="dipinjam" :selected="$page.props.old?.status === 'dipinjam'">Dipinjam</option>
+                                        <option value="dikembalikan" :selected="$page.props.old?.status === 'dikembalikan'">Dikembalikan</option>
+                                        <option value="hilang" :selected="$page.props.old?.status === 'hilang'">Hilang</option>
+                                    </select>
+                                    <div v-if="$page.props.errors?.status" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.status }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="book_id">Buku*</label>
+                                    <select name="book_id" id="book_id" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2">
+                                        <option value="">-- Pilih Buku --</option>
+                                        <option v-for="(book, index) in $page.props.book" :key="index" :value="book.id" :selected="$page.props.old?.book_id == book.id">
+                                            {{ book.name }}
+                                        </option>
+                                    </select>
+                                    <div v-if="$page.props.errors?.book_id" class="text-red-500 text-sm">
+                                        {{ $page.props.errors.book_id }}
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Keterangan -->
+                            <div class="mt-4">
+                                <label for="keterangan">Keterangan</label>
+                                <textarea name="keterangan" id="keterangan" rows="3" class="w-full border rounded-md ring-1 ring-gray-300 px-3 py-2">{{ $page.props.old?.keterangan }}</textarea>
+                                <div v-if="$page.props.errors?.keterangan" class="text-red-500 text-sm">
+                                    {{ $page.props.errors.keterangan }}
+                                </div>
+                            </div>
 
-                        <Link href="/team" class="text-blue-500 hover:text-blue-700">Back</Link>
-                        <button type="submit" class="py-1 px-3 bg-gray-300 hover:bg-gray-400 duration-100 rounded">Save</button>
-                    </form>
-
+                            <!-- Tombol -->
+                            <div class="mt-6 flex justify-between">
+                                <Link href="/team" class="text-blue-500 hover:text-blue-700">Back</Link>
+                                <button type="submit" class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </AuthenticatedLayout>
 </template>

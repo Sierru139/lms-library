@@ -177,19 +177,39 @@ class BookIssueController extends Controller
 
     public function studentStore(Request $request)
     {
-        $request->validate([
-            'student_name' => 'required',
-            'apply_date' => 'required',
-            'book_id' => 'required',
-        ]);
+        try {
+            $request->validate([
+                'student_name'     => 'required|string|max:255',
+                'apply_date'       => 'required|date',
+                'issue_date'       => 'nullable|date',
+                'returned_date'    => 'nullable|date',
+                // 'no_induk'         => 'required|string|max:100',
+                'no_kartu_perp'    => 'nullable|string|max:100',
+                'kelas'            => 'nullable|string|max:50',
+                'jurusan'          => 'nullable|string|max:100',
+                // 'id_pinjaman'      => 'nullable|string|max:100',
+                'status'           => 'required|string',
+                'keterangan'       => 'nullable|string|max:500',
+                'book_id'          => 'required|exists:books,id',
+            ]);
 
-        StudentBookIssue::create([
-            'student_name' => $request->student_name,
-            'apply_date' => $request->apply_date,
-            'book_id' => $request->book_id,
-            'status' => 'pending',
-        ]);
+            $issue = new StudentBookIssue();
+            $issue->student_name   = $request->student_name;
+            $issue->apply_date     = $request->apply_date;
+            $issue->issue_date     = $request->issue_date;
+            $issue->returned_date  = $request->returned_date;
+            $issue->no_kartu_perp  = $request->no_kartu_perp;
+            $issue->kelas          = $request->kelas;
+            $issue->jurusan        = $request->jurusan;
+            // $issue->id_pinjaman    = $request->id_pinjaman;
+            $issue->status         = $request->status ?? 'pending';
+            $issue->keterangan     = $request->keterangan;
+            $issue->book_id        = $request->book_id;
+            $issue->save();
 
-        return redirect()->route('book.issueStudent')->with('success', 'Success, you have added data');
+            return redirect()->route('book.issueStudent')->with('message', 'Data peminjaman berhasil disimpan.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
     }
 }

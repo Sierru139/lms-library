@@ -16,6 +16,7 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+console.log(props.issueBooks);
 
 let search = ref("");
 watch(search, (value) => {
@@ -161,8 +162,8 @@ watch(search, (value) => {
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="(book,index) in issueBooks.data"
-                                    :key="book.id"
+                                    v-for="(issue,index) in issueBooks.data"
+                                    :key="issue.id"
                                 >
                                     <td
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
@@ -180,7 +181,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.book.name }}
+                                            {{ issue.book.name }}
                                         </p>
                                     </td>
                                     <td
@@ -189,7 +190,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.book.no_induk }}
+                                            {{ issue.book.no_induk }}
                                         </p>
                                     </td>
                                     <td
@@ -198,7 +199,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.id }}
+                                            {{ issue.id }}
                                         </p>
                                     </td>
                                     <td
@@ -207,7 +208,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.apply_date }}
+                                            {{ issue.apply_date }}
                                         </p>
                                     </td>
                                     <td
@@ -216,7 +217,23 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.issue_date }}
+                                            {{ issue.issue_date }}
+                                        </p>
+                                    </td>
+                                    <td
+                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                                    >
+                                        <p
+                                            v-if="issue.returned_date"
+                                            class="text-gray-900 whitespace-no-wrap"
+                                        >
+                                            {{ issue.returned_date }}
+                                        </p>
+                                        <p
+                                            v-else
+                                            class="text-gray-900 whitespace-no-wrap"
+                                        >
+                                            Belum dikembalikan
                                         </p>
                                     </td>
                                     <td
@@ -225,7 +242,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.return_date }}
+                                            {{ issue.student_name }}
                                         </p>
                                     </td>
                                     <td
@@ -234,7 +251,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.student.name }}
+                                            {{ issue.kelas }}
                                         </p>
                                     </td>
                                     <td
@@ -243,7 +260,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.student.year }}
+                                            {{ issue.jurusan }}
                                         </p>
                                     </td>
                                     <td
@@ -252,7 +269,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.student.dept }}
+                                            {{ issue.no_kartu_perp }}
                                         </p>
                                     </td>
                                     <td
@@ -261,25 +278,16 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.student.student_id }}
+                                            {{ issue.book.no_induk }}
                                         </p>
                                     </td>
                                     <td
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                     >
                                         <p
-                                            class="text-gray-900 whitespace-no-wrap"
+                                            class="text-gray-900 whitespace-no-wrap max-w-[ ]"
                                         >
-                                            {{ book.book.no_induk }}
-                                        </p>
-                                    </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            {{ book.late_return_fine }}
+                                            {{ issue.keterangan }}
                                         </p>
                                     </td>
                                     <td
@@ -287,7 +295,7 @@ watch(search, (value) => {
                                     >
                                         <span
                                             class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded dark:bg-indigo-200 dark:text-indigo-900"
-                                            >{{ book.status }}</span
+                                            >{{ issue.status }}</span
                                         >
                                     </td>
                                     <td
@@ -300,7 +308,7 @@ watch(search, (value) => {
                                                 :href="
                                                     route(
                                                         'book.issueStudent.view',
-                                                        book.id
+                                                        issue.id
                                                     )
                                                 "
                                                 type="button"

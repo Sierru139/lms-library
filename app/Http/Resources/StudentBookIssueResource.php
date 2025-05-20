@@ -16,14 +16,15 @@ class StudentBookIssueResource extends JsonResource
     {
         return [
             'book' => new BookResource($this->whenLoaded('book')),
-            'student' => new StudentResource($this->whenLoaded('student')),
+            'student_name' => $this->student_name,
             'apply_date' => $this->apply_date,
             'issue_date' => $this->issue_date,
-            'return_date' => $this->return_date,
-            'fine' => $this->late_return_fine,
-            'unique_id' => $this->unique_id,
-            'status' => $this->status,
             'returned_date' => $this->returned_date,
+            'kelas' => $this->kelas,
+            'jurusan' => $this->jurusan,
+            'no_kartu_perp' => $this->no_kartu_perp,
+            'keterangan' => $this->keterangan,
+            'status' => $this->status,
             'fine_received' => $this->fine_received,
             'id' => $this->id
         ];

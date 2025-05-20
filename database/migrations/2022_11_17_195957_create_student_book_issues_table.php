@@ -21,13 +21,13 @@ return new class extends Migration
             $table->date('apply_date')->nullable(); // tamggal mulai
             $table->date('issue_date')->nullable(); // tanggal berakhir
             $table->date('returned_date')->nullable();
-            $table->date('no_kartu_perp')->nullable();
-            $table->date('kelas')->nullable();
-            $table->date('jurusan')->nullable();
+            $table->string('no_kartu_perp')->nullable();
+            $table->string('kelas')->nullable();
+            $table->string('jurusan')->nullable();
             // $table->date('return_date')->nullable(); // tanggal kembali
             // $table->string('late_return_fine')->nullable();
-            $table->string('unique_id')->unique();
-            $table->enum('status',['pending','accepted','cancel', 'returned'])->default('pending');
+            // $table->string('unique_id')->unique();
+            $table->string('status')->default('dikembalikan');
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

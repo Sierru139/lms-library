@@ -78,7 +78,7 @@ const showMenu = ref(false);
                             <div class="flex space-x-4">
                                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                                 <Link
-                                    :href="route('student.dashboard')"
+                                    :href="route('book.issueStudent')"
                                     class="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     :class="{
                                         active: $page.url.startsWith(
@@ -206,7 +206,7 @@ const showMenu = ref(false);
                 <div class="space-y-1 px-2 pt-2 pb-3">
                     <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                     <Link
-                        :href="route('student.dashboard')"
+                        :href="route('book.issueStudent')"
                         class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
                         :class="{
                             active: $page.url.startsWith('/student/dashboard'),
