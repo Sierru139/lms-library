@@ -12,13 +12,13 @@ class BookIssueController extends Controller
 {
     public function indexTeacher()
     {
-        $issueBooks = TeacherBookIssueResource::collection(TeacherBookIssue::with('book')->paginate(5));
+        $issueBooks = TeacherBookIssueResource::collection(TeacherBookIssue::with('book')->paginate(25));
         return Inertia::render('BookIssue/IndexTeacher', compact('issueBooks'));
     }
 
     public function indexStudent()
     {
-        $issueBooks = StudentBookIssueResource::collection(StudentBookIssue::with('book')->paginate(5));
+        $issueBooks = StudentBookIssueResource::collection(StudentBookIssue::with('book')->paginate(25));
         return Inertia::render('BookIssue/IndexStudent', compact('issueBooks'));
     }
 
@@ -88,22 +88,38 @@ class BookIssueController extends Controller
 
     public function teacherSearch(Request $request)
     {
-        $books = TeacherBookIssueResource::collection(
-            TeacherBookIssue::where('unique_id', 'like', "%{$request->search}%")
-                ->orWhere('teacher_id', 'like', "%{$request->search}%")
-                ->orWhere('teacher_name', 'like', "%{$request->search}%")
-                ->orderByDesc('id')
-                ->with('book')
-                ->paginate(5)
-        );
-        return Inertia::render('BookIssue/IndexTeacher', compact('books'));
+        // Validasi input pencarian
+        $request->validate([
+            'search' => 'nullable|string|max:255',
+        ]);
+
+        $books = TeacherBookIssue::with('book')
+            ->when($request->search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('teacher_name', 'like', "%{$search}%")
+                      ->orWhere('id', 'like', "%{$search}%")
+                      ->orWhereHas('book', function($query) use ($search)
+                    {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
+                });
+            })
+            ->orderByDesc('id')
+            ->paginate(25)
+            ->withQueryString(); // menjaga query string saat paginasi
+            return Inertia::render('BookIssue/IndexTeacher', [
+                'issueBooks' => TeacherBookIssueResource::collection($books),
+                'filters' => [
+                    'search' => $request->search,
+                ],
+            ]);
     }
 
     public function studentSearch(Request $request)
     {
         $books = StudentBookIssueResource::collection(
-            StudentBookIssue::where('unique_id', 'like', "%{$request->search}%")
-                ->orWhere('student_id', 'like', "%{$request->search}%")
+            StudentBookIssue::where('student_name', 'like', "%{$request->search}%")
+                ->orWhere('id', 'like', "%{$request->search}%")
                 ->orderByDesc('id')
                 ->with('book', 'student')
                 ->paginate(5)
@@ -208,6 +224,54 @@ class BookIssueController extends Controller
             $issue->save();
 
             return redirect()->route('book.issueStudent')->with('message', 'Data peminjaman berhasil disimpan.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
+    }
+
+    public function studentEdit(string $id)
+    {
+        $issueBook = StudentBookIssue::with('book')->find($id);
+        return Inertia::render( 'BookIssue/Student/Edit', [
+            'issueBook' => $issueBook,
+            'books' => Book::all(),
+        ]);
+    }
+    public function studentUpdate(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'student_name'     => 'required|string|max:255',
+                'apply_date'       => 'required|date',
+                'issue_date'       => 'nullable|date',
+                'returned_date'    => 'nullable|date',
+                'no_kartu_perp'    => 'nullable|string|max:100',
+                'kelas'            => 'nullable|string|max:50',
+                'jurusan'          => 'nullable|string|max:100',
+                'status'           => 'required|string',
+                'keterangan'       => 'nullable|string|max:500',
+                'book_id'          => 'required|exists:books,id',
+            ]);
+
+            $issue = StudentBookIssue::find($id);
+
+            if (!$issue) {
+                return redirect()->route('book.issueStudent')->with('error', 'Data tidak ditemukan.');
+            }
+
+            $issue->student_name   = $request->student_name;
+            $issue->apply_date     = $request->apply_date;
+            $issue->issue_date     = $request->issue_date;
+            $issue->returned_date  = $request->returned_date;
+            $issue->no_kartu_perp  = $request->no_kartu_perp;
+            $issue->kelas          = $request->kelas;
+            $issue->jurusan        = $request->jurusan;
+            $issue->status         = $request->status;
+            $issue->keterangan     = $request->keterangan;
+            $issue->book_id        = $request->book_id;
+            $issue->save();
+
+            return redirect()->route('book.issueStudent')->with('message', 'Data peminjaman berhasil diperbarui.');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }

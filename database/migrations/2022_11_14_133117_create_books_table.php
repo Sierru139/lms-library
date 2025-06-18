@@ -17,9 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('no_induk');
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('author_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('location_rack_id')->constrained()->cascadeOnDelete();
+            $table->date('tanggal_buat')->nullable();
+            // $table->string('judul_buku')->nullable();
             $table->string('no_judul')->nullable();
             $table->string('penerbit')->nullable();
             $table->string('cet_ed')->nullable();
@@ -33,6 +32,8 @@ return new class extends Migration
             $table->text('jumlah')->nullable();
             $table->text('no_class')->nullable();
             $table->text('keterangan')->nullable();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('author_id')->constrained()->cascadeOnDelete();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

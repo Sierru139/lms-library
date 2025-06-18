@@ -36,7 +36,7 @@ class BookVisitorController extends Controller
 
     public function indexStudent()
     {
-        $visitorBooks = StudentBookIssueResource::collection(GuestVisitor::paginate(25));
+        $visitorBooks = StudentBookVisitorResource::collection(StudentVisitor::paginate(25));
         return Inertia::render('VisitorBook/Student/Index', compact('visitorBooks'));
     }
 
@@ -70,6 +70,20 @@ class BookVisitorController extends Controller
         return Inertia::render('VisitorBook/Guest/Create', compact('visitor'));
     }
 
+    public function storeStudent(Request $request)
+    {
+        $attributes = $this->validate($request, [
+            'tanggal'=> 'required',
+            'nama'=> 'required',
+            'kelas'=> 'required',
+            'tujuan'=> 'nullable',
+        ]);
+
+        StudentVisitor::create($attributes);
+
+        return redirect()->route('book.visitorStudent')->with('message','Book Created Successfully!');
+    }
+
     public function storeTeacher(Request $request)
     {
         $attributes = $this->validate($request, [
@@ -83,6 +97,124 @@ class BookVisitorController extends Controller
 
         return redirect()->route('book.visitorTeacher')->with('message','Book Created Successfully!');
     }
+
+    public function storeGuest(Request $request)
+    {
+        $validated = $request->validate([
+            'tanggal'   => 'required|date',
+            'nama'      => 'required|string|max:255',
+            'alamat'    => 'required|string|max:255',
+            'pekerjaan' => 'required|string|max:255',
+            'maksud_kunjungan' => 'required|string|max:255',
+            'kesan'     => 'nullable|string',
+            'pesan'     => 'nullable|string',
+        ]);
+
+        GuestVisitor::create($validated);
+
+        return redirect()->route('book.visitorGuest')->with('success', 'Book Created Successfully!');
+    }
+
+    public function editGuest(string $id)
+    {
+        $visitorBook = GuestVisitor::find($id);
+        return Inertia::render( 'VisitorBook/Guest/Edit', [
+            'guest' => $visitorBook,
+        ]);
+    }
+    public function editStudent(string $id)
+    {
+        $visitorBook = StudentVisitor::find($id);
+        return Inertia::render( 'VisitorBook/Student/Edit', [
+            'student' => $visitorBook,
+        ]);
+    }
+    public function editTeacher(string $id)
+    {
+        $visitorBook = TeacherVisitor::find($id);
+        return Inertia::render( 'VisitorBook/Teacher/Edit', [
+            'teacher' => $visitorBook,
+        ]);
+    }
+    public function updateStudent(Request $request, $id)
+    {
+        $request->validate([
+            'tanggal'           => 'required|date',
+            'nama'              => 'required|string|max:255',
+            'tujuan'            => 'required|string|max:255',
+            'kelas'             => 'required|string',
+        ]);
+
+        $guest = StudentVisitor::find($id);
+
+        if (!$guest) {
+            return redirect()->route('book.visitorStudent')->with('error', 'Data pengunjung tidak ditemukan.');
+        }
+
+        $guest->update([
+            'tanggal'           => $request->tanggal,
+            'nama'              => $request->nama,
+            'tujuan'            => $request->tujuan,
+            'kelas'             => $request->kelas,
+        ]);
+
+        return redirect()->route('book.visitorStudent')->with('success', 'Data pengunjung berhasil diperbarui.');
+    }
+    public function updateTeacher(Request $request, $id)
+    {
+        $request->validate([
+            'tanggal'           => 'required|date',
+            'nama'              => 'required|string|max:255',
+            'tujuan'            => 'required|string|max:255',
+            'ket'               => 'nullable|string',
+        ]);
+
+        $teacher = TeacherVisitor::find($id);
+
+        if (!$teacher) {
+            return redirect()->route('book.visitorTeacher')->with('error', 'Data pengunjung tidak ditemukan.');
+        }
+
+        $teacher->update([
+            'tanggal'           => $request->tanggal,
+            'nama'              => $request->nama,
+            'tujuan'            => $request->tujuan,
+            'ket'               => $request->ket,
+        ]);
+
+        return redirect()->route('book.visitorTeacher')->with('success', 'Data pengunjung berhasil diperbarui.');
+    }
+    public function updateGuest(Request $request, $id)
+    {
+        $request->validate([
+            'tanggal'           => 'required|date',
+            'nama'              => 'required|string|max:255',
+            'alamat'            => 'required|string|max:255',
+            'pekerjaan'         => 'required|string|max:255',
+            'maksud_kunjungan'  => 'required|string|max:255',
+            'kesan'             => 'nullable|string',
+            'pesan'             => 'nullable|string',
+        ]);
+
+        $guest = GuestVisitor::find($id);
+
+        if (!$guest) {
+            return redirect()->route('book.visitorGuest')->with('error', 'Data pengunjung tidak ditemukan.');
+        }
+
+        $guest->update([
+            'tanggal'           => $request->tanggal,
+            'nama'              => $request->nama,
+            'alamat'            => $request->alamat,
+            'pekerjaan'         => $request->pekerjaan,
+            'maksud_kunjungan'  => $request->maksud_kunjungan,
+            'kesan'             => $request->kesan,
+            'pesan'             => $request->pesan,
+        ]);
+
+        return redirect()->route('book.visitorGuest')->with('success', 'Data pengunjung berhasil diperbarui.');
+    }
+
 
     public function teacherStatusUpdate(Request $request, $id)
     {

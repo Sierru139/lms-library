@@ -61,6 +61,14 @@ watch(search, (value) => {
                             v-model="search"
                         />
                     </div>
+                    <div class="lg:ml-40 ml-10 space-x-8">
+                        <Link
+                            :href="route('book.visitorStudent.create')"
+                            class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                        >
+                            Create
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div class="flex items-center justify-center">
@@ -82,12 +90,17 @@ watch(search, (value) => {
                                     <th
                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                     >
-                                        Tujuan
+                                        Nama
                                     </th>
                                     <th
                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                     >
-                                        Ket
+                                        Kelas
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                    >
+                                        Tujuan
                                     </th>
                                     <th
                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
@@ -107,7 +120,25 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
+                                            {{ book.tanggal }}
+                                        </p>
+                                    </td>
+                                    <td
+                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                                    >
+                                        <p
+                                            class="text-gray-900 whitespace-no-wrap"
+                                        >
                                             {{ book.nama }}
+                                        </p>
+                                    </td>
+                                    <td
+                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                                    >
+                                        <p
+                                            class="text-gray-900 whitespace-no-wrap"
+                                        >
+                                            {{ book.kelas }}
                                         </p>
                                     </td>
                                     <td
@@ -122,20 +153,15 @@ watch(search, (value) => {
                                     <td
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                     >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
+                                        <Link
+                                        :href="
+                                            route('book.visitorStudent.edit', book.id)
+                                        "
+                                        type="button"
+                                        class="bg-indigo-600 hover:bg-indigo-800 px-1 py-1 mx-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
                                         >
-                                            {{ book.ket}}
-                                        </p>
-                                    </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            dummy
-                                        </p>
+                                            edit
+                                        </Link>
                                     </td>
                                 </tr>
                             </tbody>

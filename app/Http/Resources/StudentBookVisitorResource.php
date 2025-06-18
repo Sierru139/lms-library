@@ -18,6 +18,7 @@ class StudentBookVisitorResource extends JsonResource
             'tanggal' => $this->tanggal,
             'nama' => $this->nama ,
             'tujuan' => $this->tujuan,
+            'kelas' => $this->kelas,
             'ket' => $this->ket,
             'id' => $this->id
         ];

@@ -61,6 +61,14 @@ watch(search, (value) => {
                             v-model="search"
                         />
                     </div>
+                    <div class="lg:ml-40 ml-10 space-x-8">
+                        <Link
+                            :href="route('book.visitorTeacher.create')"
+                            class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                        >
+                            Create
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div class="flex items-center justify-center">
@@ -145,10 +153,15 @@ watch(search, (value) => {
                                     <td
                                         class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                     >
-                                        <span
-                                            class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded dark:bg-indigo-200 dark:text-indigo-900"
-                                            >
-                                        </span>
+                                        <Link
+                                        :href="
+                                            route('book.visitorTeacher.edit', book.id)
+                                        "
+                                        type="button"
+                                        class="bg-indigo-600 hover:bg-indigo-800 px-1 py-1 mx-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                                        >
+                                            edit
+                                        </Link>
                                     </td>
                                 </tr>
                             </tbody>

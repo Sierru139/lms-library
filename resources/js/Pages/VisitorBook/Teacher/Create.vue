@@ -70,13 +70,14 @@ input:disabled {
 </style>
 
 <template>
-    <Head title="Project - Create" />
+    <Head title="Visitor Teacher" />
+    <authenticated-layout>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200 shadow sm:rounded-lg">
+            <div class="p-4 w-full bg-white rounded-lg border mx-auto my-10 border-gray-200 shadow-md sm:p-6 md:p-8">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-3xl mb-3"><b>Tambahkan Pengunjung Tamu</b></h3>
+                    <h3 class="text-3xl mb-3"><b>Tambahkan Pengunjung Guru</b></h3>
 								<!-- <pre>{{ form.project_code_id }} - {{ form.project_number_b}}</pre> -->
                         <form @submit.prevent="submit" enctype="multipart/form-data" class="mt-2 p-4">
 
@@ -85,7 +86,7 @@ input:disabled {
                         <div class="mb-6 sm:grid grid-cols-6 gap-3">
                             <div class="mb-4 col-span-3">
                                 <label for="tanggal">tanggal*</label>
-                                <input class="w-full border-0 rounded-md ring-gray-300"
+                                <input class="w-full border rounded-md ring-gray-300"
                                         v-model="form.tanggal"
                                         name="tanggal" id="tanggal"
                                         type="text"
@@ -94,7 +95,7 @@ input:disabled {
                             </div>
                             <div class="mb-4 col-span-3">
                                 <label for="nama">Nama*</label>
-                                <input class="w-full border-0 rounded-md ring-gray-300"
+                                <input class="w-full border rounded-md ring-gray-300"
                                         v-model="form.nama"
                                         name="nama" id="nama"
                                         type="text"
@@ -104,7 +105,7 @@ input:disabled {
                         <div class="mb-6 sm:grid grid-cols-6 gap-3 border-b-2 pb-4">
                             <div class="mb-4 col-span-3">
                                 <label for="alamat">Alamat*</label>
-                                <input class="w-full border-0 rounded-md ring-gray-300"
+                                <input class="w-full border rounded-md ring-gray-300"
                                         v-model="form.alamat"
                                         name="alamat" id="alamat"
                                         type="text"
@@ -112,7 +113,7 @@ input:disabled {
                             </div>
                             <div class="mb-4 col-span-3">
                                 <label for="pekerjaan">Pekerjaan*</label>
-                                <input class="w-full border-0 rounded-md ring-gray-300"
+                                <input class="w-full border rounded-md ring-gray-300"
                                         v-model="form.pekerjaan"
                                         name="pekerjaan" id="pekerjaan"
                                         type="text"
@@ -122,21 +123,23 @@ input:disabled {
 
                         <div class="mb-4">
                             <label for="tujuan">Tujuan</label>
-                            <QuillEditor theme="snow"
+                            <!-- <QuillEditor theme="snow"
                                             :toolbar="[['bold', 'italic'], [{ 'header': 1 }], [{ 'list': 'ordered'}, { 'list': 'bullet' }]]"
                                             v-model:content="form.tujuan"
                                             style="height: 220px;"
-                                            contentType="html" name="tujuan" id="tujuan" />
+                                            contentType="html" name="tujuan" id="tujuan" /> -->
+                            <textarea class="block w-full h-40" name="tujuan" id="tujuan"></textarea>
                             <span class="text-red-500 text-xs">{{ form.errors.tujuan }}</span>
                         </div>
 
                         <div class="mb-4">
                             <label for="ket">Keterangan</label>
-                            <QuillEditor theme="snow"
+                            <!-- <QuillEditor theme="snow"
                                             :toolbar="[['bold', 'italic'], [{ 'header': 1 }], [{ 'list': 'ordered'}, { 'list': 'bullet' }]]"
                                             v-model:content="form.ket"
                                             style="height: 220px;"
-                                            contentType="html" name="ket" id="ket" />
+                                            contentType="html" name="ket" id="ket" /> -->
+                            <textarea class="block w-full h-40" name="ket" id="ket"></textarea>
                             <span class="text-red-500 text-xs">{{ form.errors.ket }}</span>
                         </div>
                         <Link href="/mentor" class="text-blue-500 hover:text-blue-700">Back</Link>
@@ -147,4 +150,6 @@ input:disabled {
             </div>
         </div>
     </div>
+</authenticated-layout>
+
 </template>

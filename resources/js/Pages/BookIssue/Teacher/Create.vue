@@ -80,27 +80,27 @@ input:disabled {
                         </div>
                     </div>
                     <div class="col-span-2">
-                            <label for="book_id">ID Buku*</label>
-                            <div class="">
-                                <div class="relative rounded-md flex items-center">
-                                    <!--<select name="book_id"
-                                            id="book_id"
-                                            v-model="form.book_id"
-                                            class="min-w-[100px] border-0 ring-gray-300">
-                                        <option v-for="(item, index) in $page.props.book" :key="index" :value="item.id">{{ item.name }}</option>
-                                    </select>-->
-                                    <v-select
-                                    id="book_id"
-                                    v-model="form.book_id"
-                                    :options="$page.props.book"
-                                    label="name"
-                                    :reduce="(book) => book.id"
-                                    placeholder="Pilih Buku"
-                                    class="w-full rounded-md border-gray-200"
-                                    />
-                                </div>
+                        <label for="book_id">ID Buku*</label>
+                        <div class="">
+                            <div class="relative rounded-md flex items-center">
+                                <!--<select name="book_id"
+                                        id="book_id"
+                                        v-model="form.book_id"
+                                        class="min-w-[100px] border-0 ring-gray-300">
+                                    <option v-for="(item, index) in $page.props.book" :key="index" :value="item.id">{{ item.name }}</option>
+                                </select>-->
+                                <v-select
+                                id="book_id"
+                                v-model="form.book_id"
+                                :options="$page.props.book"
+                                label="name"
+                                :reduce="(book) => book.id"
+                                placeholder="Pilih Buku"
+                                class="w-full rounded-md border-gray-200"
+                                />
                             </div>
                         </div>
+                    </div>
 
                     <br>
                     <button type="submit" class="py-1 px-3 bg-gray-300 hover:bg-gray-400 duration-100 rounded">Save</button>

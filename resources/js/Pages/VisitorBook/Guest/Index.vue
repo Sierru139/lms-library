@@ -61,6 +61,14 @@ watch(search, (value) => {
                             v-model="search"
                         />
                     </div>
+                    <div class="lg:ml-40 ml-10 space-x-8">
+                        <Link
+                            :href="route('book.visitorGuest.create')"
+                            class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                        >
+                            Create
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div class="flex items-center justify-center">
@@ -127,7 +135,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.nama}}
+                                            {{ book.tanggal}}
                                         </p>
                                     </td>
                                     <td
@@ -136,7 +144,7 @@ watch(search, (value) => {
                                         <p
                                             class="text-gray-900 whitespace-no-wrap"
                                         >
-                                            {{ book.tanggal}}
+                                            {{ book.nama}}
                                         </p>
                                     </td>
                                     <td
@@ -192,29 +200,12 @@ watch(search, (value) => {
                                         >
                                             <Link
                                                 :href="
-                                                    route(
-                                                        'book.visitorGuest.view',
-                                                        book.id
-                                                    )
+                                                    route('book.visitorGuest.edit', book.id)
                                                 "
                                                 type="button"
-                                                class="bg-teal-600 hover:bg-teal-800 px-1 py-1 mx-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                                                class="bg-indigo-600 hover:bg-indigo-800 px-1 py-1 mx-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
                                             >
-                                                <svg
-                                                    class="w-6 h-6"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        d="M10 12a2 2 0 100-4 2 2 0 000 4z"
-                                                    ></path>
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                                        clip-rule="evenodd"
-                                                    ></path>
-                                                </svg>
+                                                edit
                                             </Link>
                                         </p>
                                     </td>

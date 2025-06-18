@@ -2,28 +2,38 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import SuccessAlert from "@/Components/SuccessAlert.vue";
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
-
+import { Head, Link } from "@inertiajs/inertia-vue3";
+import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
-import { watch } from "vue";
 
-const showModal = ref(false);
-const id = "";
 const props = defineProps({
-    issueBooks: {
-        type: Object,
-        default: () => ({}),
-    },
+    issueBooks: Object,
+    filters: Object,
 });
 
-let search = ref("");
+const showModal = ref(false);
+
+// isi search dari filters agar tetap tersimpan saat reload/paginate
+let search = ref(props.filters?.search || "");
+
+// trigger pencarian saat input berubah
+// watch(search, (value) => {
+//     Inertia.post(
+//         '/admin/issue/book/teacher',
+//         { search: value },
+//         {
+//             preserveState: true,
+//             replace: true,
+//         }
+//     );
+// });
 watch(search, (value) => {
-    Inertia.post(
-        "/admin/issue/book/teacher",
+    Inertia.get(
+        '/admin/issue/book/teachers',
         { search: value },
         {
             preserveState: true,
+            replace: true,
         }
     );
 });
@@ -31,12 +41,12 @@ watch(search, (value) => {
 
 <template>
     <Head title="Books" />
-    <authenticated-layout>
+    <AuthenticatedLayout>
         <div class="bg-white p-8 rounded-md w-full">
             <div class="flex items-center justify-between pb-6">
                 <div>
                     <h2 class="text-gray-600 font-semibold">Pinjaman Buku Guru</h2>
-                    <span class="text-xs">All Issue Books</span>
+                    <span class="text-xs">Semua Peminjaman</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex bg-gray-50 items-center p-2 rounded-md">
@@ -53,197 +63,78 @@ watch(search, (value) => {
                             />
                         </svg>
                         <input
-                            class="bg-gray-50 outline-none ml-1 block"
+                            class="bg-gray-50 outline-none ml-1 block mr-2"
                             type="text"
-                            name=""
-                            id=""
-                            placeholder="search..."
+                            placeholder="Cari nama guru atau ID..."
                             v-model="search"
                         />
+                        <Link
+                            :href="route('book.issueTeacher')"
+                            class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                        >
+                            Reset Pencarian
+                        </Link>
                     </div>
                     <div class="lg:ml-40 ml-10 space-x-8">
                         <Link
                             :href="route('book.issueTeacher.create')"
                             class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
                         >
-                            Create
+                            Tambah
                         </Link>
                     </div>
                 </div>
             </div>
+
             <div class="flex items-center justify-center">
                 <SuccessAlert />
             </div>
+
             <div>
                 <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                    <div
-                        class="inline-block min-w-full shadow rounded-lg overflow-hidden"
-                    >
+                    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        NO
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Nama Guru
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        ID Pinjaman
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Tanggal Pinjam
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Judul Buku
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Tanggal Kembali
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        status
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                    >
-                                        Aksi
-                                    </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">NO</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nama Guru</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID Pinjaman</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tanggal Pinjam</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Judul Buku</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tanggal Kembali</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr
-                                    v-for="(issue,index) in issueBooks.data"
-                                    :key="issue.id"
-                                >
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            {{ index + 1}}
-                                        </p>
+                                <tr v-for="(issue, index) in issueBooks.data" :key="issue.id">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ index + 1 }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ issue.teacher_name }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ issue.id }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ issue.apply_date }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ issue.book.name }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p v-if="issue.returned_date">{{ issue.returned_date }}</p>
+                                        <p v-else>Belum dikembalikan</p>
                                     </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            {{ issue.teacher_name }}
-                                        </p>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <span v-if="issue.status == 'pending'" class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded">Sedang Dipinjam - Belum Disetujui</span>
+                                        <span v-else-if="issue.status == 'accepted'" class="bg-sky-100 text-sky-800 text-sm font-medium mr-2 px-5 py-1 rounded">Sedang Dipinjam - Telah Disetujui</span>
+                                        <span v-else-if="issue.status == 'returned'" class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-5 py-1 rounded">Telah Dikembalikan</span>
+                                        <span v-else-if="issue.status == 'cancel'" class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-5 py-1 rounded">Dibatalkan</span>
                                     </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <Link
+                                            :href="route('book.issueTeacher.edit', issue.id)"
+                                            class="bg-indigo-600 hover:bg-indigo-800 px-2 py-1 rounded-md text-white font-semibold tracking-wide cursor-pointer"
                                         >
-                                            {{ issue.id }}
-                                        </p>
-                                    </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            {{ issue.apply_date }}
-                                        </p>
-                                    </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            {{ issue.book.name }}
-                                        </p>
-                                    </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p
-                                            v-if="issue.returned_date"
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            {{ issue.returned_date }}
-                                        </p>
-                                        <p
-                                            v-else
-                                            class="text-gray-900 whitespace-no-wrap"
-                                        >
-                                            Belum dikembalikan
-                                        </p>
-                                    </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <span
-                                        v-if="issue.status == 'pending'"
-                                            class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded">
-                                                Sedang Dipinjam - Belum Disetujui
-                                        </span>
-                                        <span
-                                        v-if="issue.status == 'accepted'"
-                                            class="bg-sky-100 text-sky-800 text-sm font-medium mr-2 px-5 py-1 rounded">
-                                                Sedang Dipinjam - Telah Setujui
-                                        </span>
-                                        <span
-                                        v-if="issue.status == 'returned'"
-                                            class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-5 py-1 rounded">
-                                                Telah Dikembalikan
-                                        </span>
-                                        <span
-                                        v-if="issue.status == 'cancel'"
-                                            class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-5 py-1 rounded">
-                                                Dibatalkan
-                                        </span>
-                                    </td>
-                                    <td
-                                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                    >
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            <Link
-                                                :href="route('book.issueTeacher.edit', issue.id)"
-                                                type="button"
-                                                class="bg-indigo-600 hover:bg-indigo-800 px-1 py-1 rounded-md text-white font-semibold tracking-wide cursor-pointer"
-                                            >
-                                                <svg
-                                                    class="w-6 h-6"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
-                                                    ></path>
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                                                        clip-rule="evenodd"
-                                                    ></path>
-                                                </svg>
-                                            </Link>
-                                        </p>
+                                            Edit
+                                        </Link>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+
                         <Pagination
                             class="mt-6"
                             :links="issueBooks.links"
@@ -253,5 +144,5 @@ watch(search, (value) => {
                 </div>
             </div>
         </div>
-    </authenticated-layout>
+    </AuthenticatedLayout>
 </template>

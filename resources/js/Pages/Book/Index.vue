@@ -3,16 +3,31 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import SuccessAlert from "@/Components/SuccessAlert.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+
 const showModal = ref(false);
 const id = "";
-defineProps({
+const props = defineProps({
     books: Object,
+    filters: Object,
+});
+let search = ref(props.filters?.search || "");
+
+watch(search, (value) => {
+    Inertia.get(
+        '/admin/books',
+        { search: value },
+        {
+            preserveState: true,
+            replace: true,
+        }
+    );
 });
 </script>
 
 <template>
-    <Head ptitle="Books" />
+    <Head title="Books" />
     <authenticated-layout>
         <div class="bg-white p-8 rounded-md w-full">
             <div class="flex items-center justify-between pb-6">
@@ -35,12 +50,17 @@ defineProps({
                             />
                         </svg>
                         <input
-                            class="bg-gray-50 outline-none ml-1 block"
+                            class="bg-gray-50 outline-none ml-1 block mr-2"
                             type="text"
-                            name=""
-                            id=""
-                            placeholder="search..."
+                            placeholder="Cari nama buku atau ID..."
+                            v-model="search"
                         />
+                        <Link
+                            :href="route('book.index')"
+                            class="bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                        >
+                            Reset Pencarian
+                        </Link>
                     </div>
                     <div class="lg:ml-40 ml-10 space-x-8">
                         <Link
@@ -61,50 +81,45 @@ defineProps({
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> No. ISBN </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Nama </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Kategori </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Pengarang </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Jumlah </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Status </th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Action </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">No. Induk</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Nama Buku</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">No. Judul</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Penerbit</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Cet/Ed</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Jilid</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Tahun Terbit</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Kota Terbit</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Asal</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Jumlah</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Harga</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Kategori</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Pengarang</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="book in books.data" :key="book.id">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.no_induk }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.name }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.no_judul }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.penerbit }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.cet_ed }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.jilid }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.tahun_terbit }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.kota_terbit }}</td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            {{ book.no_induk }}
-                                        </p>
+                                        <span>{{ book.buy_from }}</span>
                                     </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.no_of_copy }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">Rp {{ book.harga }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.category?.name }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ book.author?.name }}</td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            {{ book.name }}
-                                        </p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            {{ book.category.name }}
-                                        </p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            {{ book.author.name }}
-                                        </p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            {{ book.no_of_copy }}
-                                        </p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-5 py-1 rounded dark:bg-indigo-200 dark:text-indigo-900">
-                                            {{
-                                                book.status == 1
-                                                    ? "Enable"
-                                                    : "Disable"
-                                            }}</span
-                                        >
+                                        <span class="px-4 py-1 rounded text-white font-medium"
+                                            :class="book.status == 1 ? 'bg-green-600' : 'bg-red-600'">
+                                        {{ book.status == 1 ? 'Enable' : 'Disable' }}
+                                        </span>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <p class="text-gray-900 whitespace-no-wrap">
